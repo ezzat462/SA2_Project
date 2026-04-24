@@ -16,6 +16,8 @@ namespace DriveShare.API.Models
         
         public UserRole Role { get; set; }
         
+        public ApprovalStatus ApprovalStatus { get; set; } = ApprovalStatus.Approved;
+        
         public LicenseStatus LicenseStatus { get; set; } = LicenseStatus.Pending;
         
         public string? LicenseImageUrl { get; set; }
@@ -26,7 +28,7 @@ namespace DriveShare.API.Models
 
         // Navigation properties initialized to prevent null reference issues
         public ICollection<CarPost> CarsOwned { get; set; } = new List<CarPost>();
-        public ICollection<RentalRequest> RentalsRequested { get; set; } = new List<RentalRequest>();
+        public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
         public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
     }
 }

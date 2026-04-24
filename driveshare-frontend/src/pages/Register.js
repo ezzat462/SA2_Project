@@ -36,9 +36,15 @@ export default function Register() {
       setLoading(true);
       const response = await authService.register(form);
       if (response.success) {
-        login(response.data.token);
-        alert("Account created successfully 🎉");
-        navigate("/");
+        if (response.data && response.data.token) {
+          login(response.data.token);
+          alert("Account created successfully 🎉");
+          navigate("/");
+        } else {
+          // Case where user is created but token is not returned (e.g., Pending Owner)
+          alert(response.message || "Account created! Please wait for admin approval.");
+          navigate("/login");
+        }
       } else {
         setError(response.message || "Registration failed");
       }

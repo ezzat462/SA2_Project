@@ -22,6 +22,48 @@ namespace DriveShare.API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("DriveShare.API.Models.Booking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CarPostId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RenterId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RequestedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("RespondedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarPostId");
+
+                    b.HasIndex("RenterId");
+
+                    b.ToTable("Bookings");
+                });
+
             modelBuilder.Entity("DriveShare.API.Models.CarPost", b =>
                 {
                     b.Property<int>("Id")
@@ -35,9 +77,6 @@ namespace DriveShare.API.Migrations
 
                     b.Property<DateTime>("AvailableTo")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("BodyType")
-                        .HasColumnType("int");
 
                     b.Property<string>("Brand")
                         .IsRequired()
@@ -70,7 +109,14 @@ namespace DriveShare.API.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Transmission")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.Property<int>("Year")
@@ -81,6 +127,34 @@ namespace DriveShare.API.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("DriveShare.API.Models.DriverLicense", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("LicenseImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SubmittedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("DriverLicenses");
                 });
 
             modelBuilder.Entity("DriveShare.API.Models.Notification", b =>
@@ -98,6 +172,10 @@ namespace DriveShare.API.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -119,64 +197,33 @@ namespace DriveShare.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CarId")
+                    b.Property<int>("BookingId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CarPostId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RatingValue")
-                        .HasColumnType("int");
+                    b.Property<string>("Feedback")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RenterId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CarId");
+                    b.HasIndex("BookingId");
+
+                    b.HasIndex("CarPostId");
 
                     b.HasIndex("RenterId");
 
                     b.ToTable("Ratings");
-                });
-
-            modelBuilder.Entity("DriveShare.API.Models.RentalRequest", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CarId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("RenterId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CarId");
-
-                    b.HasIndex("RenterId");
-
-                    b.ToTable("RentalRequests");
                 });
 
             modelBuilder.Entity("DriveShare.API.Models.User", b =>
@@ -186,6 +233,9 @@ namespace DriveShare.API.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ApprovalStatus")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -221,12 +271,32 @@ namespace DriveShare.API.Migrations
                         new
                         {
                             Id = 1,
+                            ApprovalStatus = 1,
                             Email = "admin@driveshare.com",
                             FullName = "Admin User",
                             LicenseStatus = 1,
-                            PasswordHash = "AQAAAAIAAYagAAAAEGwuBtjxvAi6059PSnkZ20QYO9Ai1J5rezZ8N2owDR6CIuD7e5VW7IUNBxihVskhhw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEATqm4k9E/OslpNkNPt96jMj2H/baNfG6PGFYTApvh1fPAFNY0XVDe53iQJg2rmHtw==",
                             Role = 0
                         });
+                });
+
+            modelBuilder.Entity("DriveShare.API.Models.Booking", b =>
+                {
+                    b.HasOne("DriveShare.API.Models.CarPost", "Car")
+                        .WithMany("Bookings")
+                        .HasForeignKey("CarPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DriveShare.API.Models.User", "Renter")
+                        .WithMany("Bookings")
+                        .HasForeignKey("RenterId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+
+                    b.Navigation("Renter");
                 });
 
             modelBuilder.Entity("DriveShare.API.Models.CarPost", b =>
@@ -238,6 +308,17 @@ namespace DriveShare.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("DriveShare.API.Models.DriverLicense", b =>
+                {
+                    b.HasOne("DriveShare.API.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DriveShare.API.Models.Notification", b =>
@@ -253,10 +334,16 @@ namespace DriveShare.API.Migrations
 
             modelBuilder.Entity("DriveShare.API.Models.Rating", b =>
                 {
+                    b.HasOne("DriveShare.API.Models.Booking", "Booking")
+                        .WithMany()
+                        .HasForeignKey("BookingId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("DriveShare.API.Models.CarPost", "Car")
                         .WithMany("Ratings")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("CarPostId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DriveShare.API.Models.User", "Renter")
@@ -265,24 +352,7 @@ namespace DriveShare.API.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Car");
-
-                    b.Navigation("Renter");
-                });
-
-            modelBuilder.Entity("DriveShare.API.Models.RentalRequest", b =>
-                {
-                    b.HasOne("DriveShare.API.Models.CarPost", "Car")
-                        .WithMany("RentalRequests")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DriveShare.API.Models.User", "Renter")
-                        .WithMany("RentalsRequested")
-                        .HasForeignKey("RenterId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.Navigation("Booking");
 
                     b.Navigation("Car");
 
@@ -291,18 +361,18 @@ namespace DriveShare.API.Migrations
 
             modelBuilder.Entity("DriveShare.API.Models.CarPost", b =>
                 {
-                    b.Navigation("Ratings");
+                    b.Navigation("Bookings");
 
-                    b.Navigation("RentalRequests");
+                    b.Navigation("Ratings");
                 });
 
             modelBuilder.Entity("DriveShare.API.Models.User", b =>
                 {
+                    b.Navigation("Bookings");
+
                     b.Navigation("CarsOwned");
 
                     b.Navigation("Notifications");
-
-                    b.Navigation("RentalsRequested");
                 });
 #pragma warning restore 612, 618
         }

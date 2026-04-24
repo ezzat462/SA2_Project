@@ -25,8 +25,20 @@ export default function AuthProvider({ children }) {
         localStorage.removeItem("token");
       }
     }
+
+    const handleStatusUpdate = (e) => {
+      if (user) {
+        setUser(prev => ({ ...prev, ...e.detail }));
+      }
+    };
+
+    window.addEventListener('USER_STATUS_UPDATED', handleStatusUpdate);
     setLoading(false);
-  }, []);
+
+    return () => {
+      window.removeEventListener('USER_STATUS_UPDATED', handleStatusUpdate);
+    };
+  }, [user?.id]);
 
   const login = (token) => {
     localStorage.setItem("token", token);

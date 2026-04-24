@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using DriveShare.API.Hubs;
+using Microsoft.AspNetCore.SignalR;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -39,6 +41,20 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero
     };
+    
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+            var path = context.HttpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs/notifications"))
+            {
+                context.Token = accessToken;
+            }
+            return Task.CompletedTask;
+        }
+    };
 });
 
 // 3. Dependency Injection
@@ -48,6 +64,11 @@ builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IAdminStatsService, AdminStatsService>();
 builder.Services.AddScoped<ILicenseService, LicenseService>();
 builder.Services.AddScoped<ICarService, CarService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IRatingService, RatingService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
+builder.Services.AddSignalR();
 
 // 4. CORS configuration
 builder.Services.AddCors(options =>
@@ -120,5 +141,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<DriveShare.API.Hubs.NotificationHub>("/hubs/notifications");
 
 app.Run();

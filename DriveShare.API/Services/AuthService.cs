@@ -16,12 +16,14 @@ namespace DriveShare.API.Services
         private readonly JwtHelper _jwtHelper;
         private readonly IConfiguration _configuration;
         private readonly PasswordHasher<User> _hasher;
+        private readonly INotificationService _notificationService;
 
-        public AuthService(ApplicationDbContext context, JwtHelper jwtHelper, IConfiguration configuration)
+        public AuthService(ApplicationDbContext context, JwtHelper jwtHelper, IConfiguration configuration, INotificationService notificationService)
         {
             _context = context;
             _jwtHelper = jwtHelper;
             _configuration = configuration;
+            _notificationService = notificationService;
             _hasher = new PasswordHasher<User>();
         }
 
@@ -44,6 +46,7 @@ namespace DriveShare.API.Services
                 FullName = registerDto.FullName,
                 Email = registerDto.Email,
                 Role = registerDto.Role,
+                ApprovalStatus = registerDto.Role == UserRole.CarOwner ? ApprovalStatus.Pending : ApprovalStatus.Approved,
                 LicenseStatus = registerDto.Role == UserRole.Renter || registerDto.Role == UserRole.CarOwner ? LicenseStatus.Pending : LicenseStatus.Verified
             };
 
@@ -51,6 +54,15 @@ namespace DriveShare.API.Services
             
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
+
+            if (user.Role == UserRole.CarOwner)
+            {
+                await _notificationService.SendNotificationToAdminsAsync(
+                    $"New owner {user.FullName} has registered and is awaiting approval.",
+                    "AccountPending");
+                
+                return ApiResponse<TokenResponseDto>.SuccessResponse(null!, "Your account has been created successfully and is pending admin approval.");
+            }
 
             return await GenerateTokenResponse(user);
         }
@@ -60,6 +72,15 @@ namespace DriveShare.API.Services
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
             if (user == null || _hasher.VerifyHashedPassword(user, user.PasswordHash ?? string.Empty, loginDto.Password) == PasswordVerificationResult.Failed)
                 return ApiResponse<TokenResponseDto>.FailureResponse("Invalid credentials");
+
+            if (user.Role == UserRole.CarOwner)
+            {
+                if (user.ApprovalStatus == ApprovalStatus.Pending)
+                    return ApiResponse<TokenResponseDto>.FailureResponse("Your Car Owner account is currently pending admin approval.");
+                
+                if (user.ApprovalStatus == ApprovalStatus.Rejected)
+                    return ApiResponse<TokenResponseDto>.FailureResponse("Your Car Owner account application has been rejected.");
+            }
 
             return await GenerateTokenResponse(user);
         }
@@ -120,6 +141,7 @@ namespace DriveShare.API.Services
             FullName = user.FullName,
             Email = user.Email,
             Role = user.Role,
+            ApprovalStatus = user.ApprovalStatus,
             LicenseStatus = user.LicenseStatus,
             LicenseImageUrl = user.LicenseImageUrl
         };

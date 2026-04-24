@@ -9,9 +9,12 @@ namespace DriveShare.API.Models
         public int Id { get; set; }
         public required string Brand { get; set; }
         public required string Model { get; set; }
+        public required string Title { get; set; }
         public int Year { get; set; }
         public decimal PricePerDay { get; set; }
         public required string Location { get; set; }
+        public CarType Type { get; set; } = CarType.Other;
+        public TransmissionType Transmission { get; set; } = TransmissionType.Auto;
         public bool IsApproved { get; set; } = false;
         public CarStatus Status { get; set; } = CarStatus.Available;
 
@@ -28,15 +31,15 @@ namespace DriveShare.API.Models
         /// <summary>End of the window when this car is available for rent.</summary>
         public DateTime AvailableTo { get; set; }
 
-        public ICollection<RentalRequest> RentalRequests { get; set; } = new List<RentalRequest>();
+        public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
         public ICollection<Rating> Ratings { get; set; } = new List<Rating>();
     }
 
-    public class RentalRequest
+    public class Booking
     {
         public int Id { get; set; }
-        public int CarId { get; set; }
-        [ForeignKey("CarId")]
+        public int CarPostId { get; set; }
+        [ForeignKey("CarPostId")]
         public CarPost? Car { get; set; }
 
         public int RenterId { get; set; }
@@ -46,22 +49,29 @@ namespace DriveShare.API.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal TotalPrice { get; set; }
-        public RentalStatus Status { get; set; } = RentalStatus.Pending;
+        public BookingStatus Status { get; set; } = BookingStatus.Pending;
+        public DateTime RequestedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? RespondedAt { get; set; }
     }
 
     public class Rating
     {
         public int Id { get; set; }
-        public int CarId { get; set; }
-        [ForeignKey("CarId")]
+        
+        public int BookingId { get; set; }
+        [ForeignKey("BookingId")]
+        public Booking? Booking { get; set; }
+
+        public int CarPostId { get; set; }
+        [ForeignKey("CarPostId")]
         public CarPost? Car { get; set; }
 
         public int RenterId { get; set; }
         [ForeignKey("RenterId")]
         public User? Renter { get; set; }
 
-        public int RatingValue { get; set; }
-        public string? Comment { get; set; }
+        public int Score { get; set; }
+        public string? Feedback { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 
@@ -73,7 +83,23 @@ namespace DriveShare.API.Models
         public User? User { get; set; }
 
         public required string Message { get; set; }
+
+        /// <summary>Categorizes the notification for frontend routing (e.g., NewCarPost, LicenseApproved, BookingResolution).</summary>
+        public string Type { get; set; } = "General";
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public bool IsRead { get; set; } = false;
+    }
+
+    public class DriverLicense
+    {
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public User? User { get; set; }
+
+        public required string LicenseImageUrl { get; set; }
+        public LicenseStatus Status { get; set; } = LicenseStatus.Pending;
+        public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
     }
 }

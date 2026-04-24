@@ -27,5 +27,15 @@ namespace DriveShare.API.Controllers
             
             return response.Success ? Ok(response) : BadRequest(response);
         }
+
+        [HttpGet("my")]
+        public async Task<IActionResult> GetMyLicense()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim)) return Unauthorized();
+
+            var response = await _licenseService.GetMyLicenseAsync(int.Parse(userIdClaim));
+            return response.Success ? Ok(response) : BadRequest(response);
+        }
     }
 }

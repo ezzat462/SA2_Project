@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ThemeContext } from "../context/ThemeContext";
+import NotificationBell from "./NotificationBell";
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
@@ -56,6 +57,14 @@ export default function Navbar() {
                     <Link className="nav-link" to="/owner">Owner Dash</Link>
                   </li>
                 )}
+                {user.role === "Renter" && (
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/renter/bookings">My Bookings</Link>
+                  </li>
+                )}
+                <li className="nav-item d-flex align-items-center">
+                  <NotificationBell />
+                </li>
               </>
             )}
 
@@ -80,9 +89,9 @@ export default function Navbar() {
               </>
             ) : (
               <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                <span className="nav-link dropdown-toggle" style={{cursor: 'pointer'}} id="navbarDropdown" role="button" data-bs-toggle="dropdown">
                   {user.unique_name || user.email}
-                </a>
+                </span>
                 <ul className="dropdown-menu dropdown-menu-end shadow">
                   <li><button className="dropdown-item text-danger" onClick={handleLogout}>Logout</button></li>
                 </ul>

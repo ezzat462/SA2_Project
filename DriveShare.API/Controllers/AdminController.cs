@@ -11,11 +11,13 @@ namespace DriveShare.API.Controllers
     {
         private readonly IAdminService _adminService;
         private readonly IAdminStatsService _adminStatsService;
+        private readonly ILicenseService _licenseService;
 
-        public AdminController(IAdminService adminService, IAdminStatsService adminStatsService)
+        public AdminController(IAdminService adminService, IAdminStatsService adminStatsService, ILicenseService licenseService)
         {
             _adminService = adminService;
             _adminStatsService = adminStatsService;
+            _licenseService = licenseService;
         }
 
         [HttpGet("stats/summary")]
@@ -53,6 +55,20 @@ namespace DriveShare.API.Controllers
             return response.Success ? Ok(response) : BadRequest(response);
         }
 
+        [HttpGet("owners/pending")]
+        public async Task<IActionResult> GetPendingOwners()
+        {
+            var response = await _adminService.GetPendingOwnersAsync();
+            return response.Success ? Ok(response) : BadRequest(response);
+        }
+
+        [HttpPut("owners/{id}/status")]
+        public async Task<IActionResult> UpdateOwnerStatus(int id, [FromBody] DriveShare.API.Models.Enums.ApprovalStatus status)
+        {
+            var response = await _adminService.UpdateOwnerStatusAsync(id, status);
+            return response.Success ? Ok(response) : BadRequest(response);
+        }
+
         [HttpPut("cars/{id}/approve")]
         public async Task<IActionResult> ApproveCar(int id)
         {
@@ -71,6 +87,27 @@ namespace DriveShare.API.Controllers
         public async Task<IActionResult> GetPendingCars()
         {
             var response = await _adminService.GetPendingCarsAsync();
+            return response.Success ? Ok(response) : BadRequest(response);
+        }
+
+        [HttpPut("license/{id}/verify")]
+        public async Task<IActionResult> VerifyLicense(int id)
+        {
+            var response = await _licenseService.VerifyLicenseAsync(id);
+            return response.Success ? Ok(response) : BadRequest(response);
+        }
+
+        [HttpPut("license/{id}/reject")]
+        public async Task<IActionResult> RejectLicense(int id)
+        {
+            var response = await _licenseService.RejectLicenseAsync(id);
+            return response.Success ? Ok(response) : BadRequest(response);
+        }
+
+        [HttpGet("license/pending")]
+        public async Task<IActionResult> GetPendingLicenses()
+        {
+            var response = await _licenseService.GetPendingLicensesAsync();
             return response.Success ? Ok(response) : BadRequest(response);
         }
     }

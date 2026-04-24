@@ -16,6 +16,11 @@ const carService = {
     return response.data;
   },
 
+  update: async (id, carData) => {
+    const response = await API.put(`/cars/${id}`, carData);
+    return response.data;
+  },
+
   getMyCars: async () => {
     const response = await API.get("/cars/my-cars");
     return response.data;

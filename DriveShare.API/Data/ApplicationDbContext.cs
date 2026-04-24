@@ -13,9 +13,10 @@ namespace DriveShare.API.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<CarPost> Cars { get; set; }
-        public DbSet<RentalRequest> RentalRequests { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<DriverLicense> DriverLicenses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,18 +29,18 @@ namespace DriveShare.API.Data
                 .HasForeignKey(c => c.OwnerId)
                 .OnDelete(DeleteBehavior.NoAction); // Avoid cascade path
 
-            // RentalRequest - User (Renter)
-            modelBuilder.Entity<RentalRequest>()
-                .HasOne(r => r.Renter)
-                .WithMany(u => u.RentalsRequested)
-                .HasForeignKey(r => r.RenterId)
+            // Booking - User (Renter)
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.Renter)
+                .WithMany(u => u.Bookings)
+                .HasForeignKey(b => b.RenterId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // RentalRequest - CarPost
-            modelBuilder.Entity<RentalRequest>()
-                .HasOne(r => r.Car)
-                .WithMany(c => c.RentalRequests)
-                .HasForeignKey(r => r.CarId)
+            // Booking - CarPost
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.Car)
+                .WithMany(c => c.Bookings)
+                .HasForeignKey(b => b.CarPostId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Rating - User (Renter)
@@ -49,13 +50,27 @@ namespace DriveShare.API.Data
                 .HasForeignKey(r => r.RenterId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            // Rating - CarPost
+            modelBuilder.Entity<Rating>()
+                .HasOne(r => r.Car)
+                .WithMany(c => c.Ratings)
+                .HasForeignKey(r => r.CarPostId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Rating - Booking
+            modelBuilder.Entity<Rating>()
+                .HasOne(r => r.Booking)
+                .WithMany()
+                .HasForeignKey(r => r.BookingId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             // Decimal Precision
             modelBuilder.Entity<CarPost>()
                 .Property(c => c.PricePerDay)
                 .HasPrecision(18, 2);
 
-            modelBuilder.Entity<RentalRequest>()
-                .Property(r => r.TotalPrice)
+            modelBuilder.Entity<Booking>()
+                .Property(b => b.TotalPrice)
                 .HasPrecision(18, 2);
 
             // Seed Admin User

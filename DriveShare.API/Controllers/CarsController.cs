@@ -25,10 +25,12 @@ namespace DriveShare.API.Controllers
             [FromQuery] decimal? minPrice, 
             [FromQuery] decimal? maxPrice, 
             [FromQuery] string? sortOrder,
+            [FromQuery] DriveShare.API.Models.Enums.CarType? carType,
+            [FromQuery] DriveShare.API.Models.Enums.TransmissionType? transmission,
             [FromQuery] int page = 1, 
             [FromQuery] int pageSize = 10)
         {
-            var response = await _carService.GetAllApprovedCarsAsync(brand, location, minPrice, maxPrice, sortOrder, page, pageSize);
+            var response = await _carService.GetAllApprovedCarsAsync(brand, location, minPrice, maxPrice, sortOrder, carType, transmission, page, pageSize);
             return Ok(response);
         }
 
@@ -55,6 +57,26 @@ namespace DriveShare.API.Controllers
         }
 
         [Authorize(Roles = "CarOwner,Admin")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, CarPost car)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim)) return Unauthorized();
+
+            var currentUserId = int.Parse(userIdClaim);
+            
+            // Check if car belongs to user (unless admin)
+            var existingCar = await _carService.GetCarByIdAsync(id);
+            if (!existingCar.Success) return NotFound(existingCar);
+            
+            if (!User.IsInRole("Admin") && existingCar.Data!.OwnerId != currentUserId)
+                return Forbid();
+
+            var response = await _carService.UpdateCarAsync(id, car);
+            return Ok(response);
+        }
+
+        [Authorize(Roles = "CarOwner,Admin")]
         [HttpGet("my-cars")]
         public async Task<IActionResult> GetMyCars()
         {
@@ -63,6 +85,18 @@ namespace DriveShare.API.Controllers
 
             var response = await _carService.GetCarsByOwnerAsync(int.Parse(userIdClaim));
             return Ok(response);
+        }
+
+        [Authorize(Roles = "CarOwner,Admin")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim)) return Unauthorized();
+
+            var ownerId = int.Parse(userIdClaim);
+            var response = await _carService.DeleteCarAsync(id, ownerId);
+            return response.Success ? Ok(response) : BadRequest(response);
         }
     }
 }

@@ -21,11 +21,11 @@ namespace DriveShare.API.Services
             var totalUsers = await _context.Users.CountAsync();
             var totalApprovedCars = await _context.Cars.CountAsync(c => c.IsApproved);
             
-            var totalActiveRentals = await _context.RentalRequests
-                .CountAsync(r => r.Status == RentalStatus.Approved || r.Status == RentalStatus.Pending);
+            var totalActiveRentals = await _context.Bookings
+                .CountAsync(r => r.Status == BookingStatus.Accepted || r.Status == BookingStatus.Pending);
             
             // Simple revenue calculation (sum of all rentals)
-            var totalRevenue = await _context.RentalRequests
+            var totalRevenue = await _context.Bookings
                 .SumAsync(r => (decimal?)r.TotalPrice) ?? 0m;
 
             var summary = new AdminStatsSummaryDto
@@ -41,7 +41,7 @@ namespace DriveShare.API.Services
 
         public async Task<ApiResponse<AdminRecentActivityDto>> GetRecentActivityAsync()
         {
-            var recentRentals = await _context.RentalRequests
+            var recentRentals = await _context.Bookings
                 .Include(r => r.Car)
                 .Include(r => r.Renter)
                 .OrderByDescending(r => r.Id)

@@ -6,6 +6,19 @@ const adminService = {
     return response.data;
   },
 
+  getPendingOwners: async () => {
+    const response = await API.get("/admin/owners/pending");
+    return response.data;
+  },
+
+  updateOwnerStatus: async (id, status) => {
+    // status: 1 = Approved, 2 = Rejected
+    const response = await API.put(`/admin/owners/${id}/status`, status, {
+        headers: { 'Content-Type': 'application/json' }
+    });
+    return response.data;
+  },
+
   approveUser: async (id) => {
     const response = await API.put(`/admin/users/${id}/approve`);
     return response.data;

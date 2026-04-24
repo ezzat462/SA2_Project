@@ -30,6 +30,7 @@ namespace DriveShare.API.DTOs.Auth
         public required string FullName { get; set; }
         public required string Email { get; set; }
         public UserRole Role { get; set; }
+        public ApprovalStatus ApprovalStatus { get; set; }
         public LicenseStatus LicenseStatus { get; set; }
         public string? LicenseImageUrl { get; set; }
     }

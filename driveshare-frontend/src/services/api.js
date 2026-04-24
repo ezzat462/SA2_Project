@@ -22,14 +22,19 @@ API.interceptors.request.use(
 API.interceptors.response.use(
   (response) => response,
   (error) => {
-    const isAuthEndpoint = error.config?.url?.includes("/auth/");
-    if (error.response && error.response.status === 401 && !isAuthEndpoint) {
-      // Only clear token and redirect if it's NOT a login/register call.
-      // Auth endpoints return 401 on bad credentials — we let the caller handle that.
+    const isAuthEndpoint = error?.config?.url?.includes("/auth/");
+    if (error?.response && error.response.status === 401 && !isAuthEndpoint) {
       localStorage.removeItem("token");
       window.location.href = "/login";
     }
-    return Promise.reject(error);
+    
+    // Safely swallow errors to prevent Uncaught Runtime Errors
+    return Promise.resolve({
+      data: {
+        success: false,
+        message: error.response?.data?.message || error.message || "An unexpected network error occurred."
+      }
+    });
   }
 );
 

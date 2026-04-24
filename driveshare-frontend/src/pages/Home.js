@@ -12,6 +12,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchCars();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
   const fetchCars = async () => {
@@ -37,12 +38,9 @@ export default function Home() {
 
   const handleBookNow = (carId) => {
     if (!user) {
-      // User is NOT authenticated, redirect to Login
       navigate("/login", { state: { from: "/", message: "Please log in to book a ride!" } });
     } else {
-      // User IS authenticated, proceed with booking logic
-      // In a real application, we'd navigate to a booking page or open a modal
-      alert(`Proceeding to book car ID: ${carId}. This would navigate to the booking details page.`);
+      navigate(`/booking/${carId}`);
     }
   };
 
@@ -147,7 +145,10 @@ export default function Home() {
                     >
                       Book Now
                     </button>
-                    <button className="btn btn-light rounded-pill py-2 text-primary border-0">
+                    <button 
+                      className="btn btn-light rounded-pill py-2 text-primary border-0"
+                      onClick={() => navigate(`/cars/${car.id}`)}
+                    >
                       View Details
                     </button>
                   </div>

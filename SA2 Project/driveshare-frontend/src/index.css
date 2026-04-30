@@ -1,0 +1,79 @@
+/* الوضع الافتراضي (Dark) */
+body {
+  margin: 0;
+  font-family: Arial;
+  transition: 0.3s;
+}
+
+/* DARK MODE */
+.dark {
+  background-color: #0f0f1a;
+  color: white;
+}
+
+/* LIGHT MODE */
+.light {
+  background-color: #f5f5f5;
+  color: black;
+}
+
+/* Card */
+.card {
+  border-radius: 15px;
+  transition: 0.3s;
+}
+
+/* DARK */
+.dark .card {
+  background-color: #1a1a2e;
+  color: white;
+}
+
+/* LIGHT */
+.light .card {
+  background-color: white;
+  color: black;
+}
+
+/* Buttons */
+.primary-btn {
+  background: linear-gradient(45deg, #6a0dad, #9b30ff);
+  border: none;
+  color: white;
+}
+
+.primary-btn:hover {
+  opacity: 0.9;
+}
+
+/* Inputs */
+.dark .form-control {
+  background-color: #0f0f1a;
+  border: 1px solid #6a0dad;
+  color: white;
+}
+
+.light .form-control {
+  background-color: white;
+  color: black;
+}
+
+/* Fix for muted text visibility in Dark Mode (Location, Date, etc.) */
+.dark .text-muted {
+  color: #e0e0e0 !important;
+}
+
+/* Navigation Links - Common styling */
+.navbar-nav .nav-link {
+  font-family: inherit !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  padding: 0.5rem 1rem !important;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Navigation Links - Active state styling */
+.navbar-nav .nav-link.active {
+  font-weight: 700 !important;
+  color: #3b82f6 !important;
+}

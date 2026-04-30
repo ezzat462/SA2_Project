@@ -1,0 +1,13 @@
+E:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net10.0\DriveShare.Shared.csproj.AssemblyReference.cache
+E:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net10.0\DriveShare.Shared.GeneratedMSBuildEditorConfig.editorconfig
+E:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net10.0\DriveShare.Shared.AssemblyInfoInputs.cache
+E:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net10.0\DriveShare.Shared.AssemblyInfo.cs
+E:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net10.0\DriveShare.Shared.csproj.CoreCompileInputs.cache
+E:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net10.0\DriveShare.Shared.sourcelink.json
+e:\New folder\DriveShare\DriveShare.Shared\bin\Debug\net10.0\DriveShare.Shared.deps.json
+e:\New folder\DriveShare\DriveShare.Shared\bin\Debug\net10.0\DriveShare.Shared.dll
+e:\New folder\DriveShare\DriveShare.Shared\bin\Debug\net10.0\DriveShare.Shared.pdb
+e:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net10.0\DriveShare.Shared.dll
+e:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net10.0\refint\DriveShare.Shared.dll
+e:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net10.0\DriveShare.Shared.pdb
+e:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net10.0\ref\DriveShare.Shared.dll

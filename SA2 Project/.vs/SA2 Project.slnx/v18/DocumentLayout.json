@@ -1,0 +1,112 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Collage\\SA2\\project\\SA2 Project\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Collage\\SA2\\project\\SA2 Project\\DriveShare.RentalService\\Dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DriveShare.RentalService\\Dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Collage\\SA2\\project\\SA2 Project\\DriveShare.RentalService\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DriveShare.RentalService\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Collage\\SA2\\project\\SA2 Project\\DriveShare.RentalService\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DriveShare.RentalService\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Collage\\SA2\\project\\SA2 Project\\DriveShare.RentalService\\Services\\BookingService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DriveShare.RentalService\\Services\\BookingService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Collage\\SA2\\project\\SA2 Project\\DriveShare.RentalService\\DriveShare.RentalService.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DriveShare.RentalService\\DriveShare.RentalService.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{74946827-37a0-11d2-a273-00c04f8ef4ff}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "D:\\Collage\\SA2\\project\\SA2 Project\\DriveShare.RentalService\\Dockerfile",
+              "RelativeDocumentMoniker": "DriveShare.RentalService\\Dockerfile",
+              "ToolTip": "D:\\Collage\\SA2\\project\\SA2 Project\\DriveShare.RentalService\\Dockerfile",
+              "RelativeToolTip": "DriveShare.RentalService\\Dockerfile",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAuwA4AAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-05-03T10:12:01.238Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Collage\\SA2\\project\\SA2 Project\\DriveShare.RentalService\\Program.cs",
+              "RelativeDocumentMoniker": "DriveShare.RentalService\\Program.cs",
+              "ToolTip": "D:\\Collage\\SA2\\project\\SA2 Project\\DriveShare.RentalService\\Program.cs",
+              "RelativeToolTip": "DriveShare.RentalService\\Program.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAcwEMAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-03T10:50:54.846Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DriveShare.RentalService.http",
+              "DocumentMoniker": "D:\\Collage\\SA2\\project\\SA2 Project\\DriveShare.RentalService\\DriveShare.RentalService.http",
+              "RelativeDocumentMoniker": "DriveShare.RentalService\\DriveShare.RentalService.http",
+              "ToolTip": "D:\\Collage\\SA2\\project\\SA2 Project\\DriveShare.RentalService\\DriveShare.RentalService.http",
+              "RelativeToolTip": "DriveShare.RentalService\\DriveShare.RentalService.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2026-05-03T08:21:00.711Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Collage\\SA2\\project\\SA2 Project\\DriveShare.RentalService\\appsettings.json",
+              "RelativeDocumentMoniker": "DriveShare.RentalService\\appsettings.json",
+              "ToolTip": "D:\\Collage\\SA2\\project\\SA2 Project\\DriveShare.RentalService\\appsettings.json",
+              "RelativeToolTip": "DriveShare.RentalService\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-05-03T08:19:09.271Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BookingService.cs",
+              "DocumentMoniker": "D:\\Collage\\SA2\\project\\SA2 Project\\DriveShare.RentalService\\Services\\BookingService.cs",
+              "RelativeDocumentMoniker": "DriveShare.RentalService\\Services\\BookingService.cs",
+              "ToolTip": "D:\\Collage\\SA2\\project\\SA2 Project\\DriveShare.RentalService\\Services\\BookingService.cs",
+              "RelativeToolTip": "DriveShare.RentalService\\Services\\BookingService.cs",
+              "ViewState": "AgIAALEAAAAAAAAAAAAowKIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-03T09:52:00.957Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

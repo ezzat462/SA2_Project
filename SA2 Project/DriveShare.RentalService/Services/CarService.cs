@@ -108,13 +108,13 @@ namespace DriveShare.RentalService.Services
             _context.Cars.Add(car);
             await _context.SaveChangesAsync();
 
-            await _kafkaProducer.ProduceAsync("new-car-listing-topic", new
-            {
-                CarId = car.Id,
-                OwnerId = car.OwnerId,
-                Brand = car.Brand,
-                Model = car.Model
-            });
+            //await _kafkaProducer.ProduceAsync("new-car-listing-topic", new
+            //{
+            //    CarId = car.Id,
+            //    OwnerId = car.OwnerId,
+            //    Brand = car.Brand,
+            //    Model = car.Model
+            //});
 
             return ApiResponse<CarPost>.SuccessResponse(car, 
                 "Your car listing has been submitted successfully and is currently under review by the admin.");

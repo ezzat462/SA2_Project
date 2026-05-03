@@ -155,12 +155,12 @@ namespace DriveShare.RentalService.Services
             
             await _context.SaveChangesAsync();
 
-            await _kafkaProducer.ProduceAsync("booking-confirmed-topic", new BookingConfirmedEvent
-            {
-                BookingId = booking.Id,
-                UserId = booking.RenterId.ToString(),
-                CarId = booking.CarPostId
-            });
+            //await _kafkaProducer.ProduceAsync("booking-confirmed-topic", new BookingConfirmedEvent
+            //{
+            //    BookingId = booking.Id,
+            //    UserId = booking.RenterId.ToString(),
+            //    CarId = booking.CarPostId
+            //});
 
             return ApiResponse<bool>.SuccessResponse(true, "Booking accepted.");
         }

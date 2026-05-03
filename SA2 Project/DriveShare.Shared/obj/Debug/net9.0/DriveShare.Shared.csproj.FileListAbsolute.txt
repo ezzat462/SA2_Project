@@ -11,3 +11,16 @@ e:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.dl
 e:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net9.0\refint\DriveShare.Shared.dll
 e:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.pdb
 e:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net9.0\ref\DriveShare.Shared.dll
+D:\Collage\SA2\project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.dll
+D:\Collage\SA2\project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\refint\DriveShare.Shared.dll
+D:\Collage\SA2\project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.pdb
+D:\Collage\SA2\project\SA2 Project\DriveShare.Shared\bin\Debug\net9.0\DriveShare.Shared.deps.json
+D:\Collage\SA2\project\SA2 Project\DriveShare.Shared\bin\Debug\net9.0\DriveShare.Shared.dll
+D:\Collage\SA2\project\SA2 Project\DriveShare.Shared\bin\Debug\net9.0\DriveShare.Shared.pdb
+D:\Collage\SA2\project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.csproj.AssemblyReference.cache
+D:\Collage\SA2\project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.GeneratedMSBuildEditorConfig.editorconfig
+D:\Collage\SA2\project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.AssemblyInfoInputs.cache
+D:\Collage\SA2\project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.AssemblyInfo.cs
+D:\Collage\SA2\project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.csproj.CoreCompileInputs.cache
+D:\Collage\SA2\project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.sourcelink.json
+D:\Collage\SA2\project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\ref\DriveShare.Shared.dll

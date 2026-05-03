@@ -11,3 +11,16 @@ e:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.dl
 e:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net9.0\refint\DriveShare.Shared.dll
 e:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.pdb
 e:\New folder\DriveShare\DriveShare.Shared\obj\Debug\net9.0\ref\DriveShare.Shared.dll
+C:\Users\marin\SA2_Project\SA2 Project\DriveShare.Shared\bin\Debug\net9.0\DriveShare.Shared.deps.json
+C:\Users\marin\SA2_Project\SA2 Project\DriveShare.Shared\bin\Debug\net9.0\DriveShare.Shared.dll
+C:\Users\marin\SA2_Project\SA2 Project\DriveShare.Shared\bin\Debug\net9.0\DriveShare.Shared.pdb
+C:\Users\marin\SA2_Project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.csproj.AssemblyReference.cache
+C:\Users\marin\SA2_Project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\marin\SA2_Project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.AssemblyInfoInputs.cache
+C:\Users\marin\SA2_Project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.AssemblyInfo.cs
+C:\Users\marin\SA2_Project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.csproj.CoreCompileInputs.cache
+C:\Users\marin\SA2_Project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.sourcelink.json
+C:\Users\marin\SA2_Project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.dll
+C:\Users\marin\SA2_Project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\refint\DriveShare.Shared.dll
+C:\Users\marin\SA2_Project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\DriveShare.Shared.pdb
+C:\Users\marin\SA2_Project\SA2 Project\DriveShare.Shared\obj\Debug\net9.0\ref\DriveShare.Shared.dll

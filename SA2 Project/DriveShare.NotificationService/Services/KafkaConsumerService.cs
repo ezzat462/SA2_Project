@@ -20,6 +20,7 @@ namespace DriveShare.NotificationService.Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            /*
             var config = new ConsumerConfig
             {
                 BootstrapServers = _config["Kafka:BootstrapServers"],
@@ -78,6 +79,7 @@ namespace DriveShare.NotificationService.Services
                     await Task.Delay(5000, stoppingToken);
                 }
             }
+            */
         }
     }
 }

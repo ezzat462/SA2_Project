@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DriveShare.NotificationService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a53c9e2f5a078d17730508762ef151d54731c443")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+751bd01bf86e134fbbd12110f7c39481d39bbbd9")]
 [assembly: System.Reflection.AssemblyProductAttribute("DriveShare.NotificationService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DriveShare.NotificationService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

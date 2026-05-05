@@ -62,3 +62,18 @@ body {
 .dark .text-muted {
   color: #e0e0e0 !important;
 }
+
+/* Navigation Links - Common styling */
+.navbar-nav .nav-link {
+  font-family: inherit !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  padding: 0.5rem 1rem !important;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Navigation Links - Active state styling */
+.navbar-nav .nav-link.active {
+  font-weight: 700 !important;
+  color: #3b82f6 !important;
+}

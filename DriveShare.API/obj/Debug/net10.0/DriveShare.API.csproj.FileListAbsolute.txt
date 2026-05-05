@@ -1,8 +1,0 @@
-E:\DriveShare\DriveShare.API\obj\Debug\net10.0\DriveShare.API.csproj.AssemblyReference.cache
-E:\DriveShare\DriveShare.API\obj\Debug\net10.0\rpswa.dswa.cache.json
-E:\DriveShare\DriveShare.API\obj\Debug\net10.0\DriveShare.API.GeneratedMSBuildEditorConfig.editorconfig
-E:\DriveShare\DriveShare.API\obj\Debug\net10.0\DriveShare.API.AssemblyInfoInputs.cache
-E:\DriveShare\DriveShare.API\obj\Debug\net10.0\DriveShare.API.AssemblyInfo.cs
-E:\DriveShare\DriveShare.API\obj\Debug\net10.0\DriveShare.API.csproj.CoreCompileInputs.cache
-E:\DriveShare\DriveShare.API\obj\Debug\net10.0\DriveShare.API.MvcApplicationPartsAssemblyInfo.cs
-E:\DriveShare\DriveShare.API\obj\Debug\net10.0\DriveShare.API.MvcApplicationPartsAssemblyInfo.cache

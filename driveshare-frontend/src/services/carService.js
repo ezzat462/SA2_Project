@@ -1,4 +1,4 @@
-import API from "./api";
+import { rentalAPI as API } from "./api";
 
 const carService = {
   getAll: async (params = {}) => {

@@ -1,0 +1,6 @@
+@DriveShare.NotificationService_HostAddress = http://localhost:5227
+
+GET {{DriveShare.NotificationService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

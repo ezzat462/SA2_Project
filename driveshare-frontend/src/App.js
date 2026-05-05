@@ -12,6 +12,7 @@ import BookingPage from "./pages/BookingPage";
 import RenterDashboard from "./pages/RenterDashboard";
 import LicensePage from "./pages/LicensePage";
 import CarDetails from "./pages/CarDetails";
+import Favorites from "./pages/Favorites";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -45,6 +46,7 @@ function App() {
               <Route path="/booking/:carId" element={<BookingPage />} />
               <Route path="/renter/bookings" element={<RenterDashboard />} />
               <Route path="/profile/license" element={<LicensePage />} />
+              <Route path="/favorites" element={<Favorites />} />
             </Route>
           </Routes>
         </Router>

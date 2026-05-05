@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import adminService from "../services/adminService";
 import licenseService from "../services/licenseService";
 import { toast } from 'react-toastify';
+import { NotificationContext } from "../context/NotificationContext";
 
 export default function AdminDashboard() {
   const [pendingLicenses, setPendingLicenses] = useState([]);
@@ -9,24 +10,61 @@ export default function AdminDashboard() {
   const [pendingOwners, setPendingOwners] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Backend base URL for images
-  const API_URL = "http://localhost:5243";
+  // Backend base URLs
+  const USER_API_URL = process.env.REACT_APP_USER_SERVICE_URL?.replace("/api", "") || "http://localhost:5001";
+  const RENTAL_API_URL = process.env.REACT_APP_RENTAL_SERVICE_URL?.replace("/api", "") || "http://localhost:5002";
 
   useEffect(() => {
     fetchData();
+
+    // Listen for real-time updates
+    const handleLicenseUploaded = () => {
+      console.log("New license uploaded notification received. Refreshing data...");
+      fetchData();
+    };
+
+    window.addEventListener('LICENSE_UPLOADED', handleLicenseUploaded);
+
+    return () => {
+      window.removeEventListener('LICENSE_UPLOADED', handleLicenseUploaded);
+    };
   }, []);
 
   const fetchData = async () => {
     try {
       setLoading(true);
+      console.log("Fetching admin data...");
+      
       const licenseRes = await licenseService.getPendingLicenses();
+      console.log("Licenses Response:", licenseRes);
+      
       const carRes = await adminService.getPendingCars();
+      console.log("Cars Response:", carRes);
+      
       const ownerRes = await adminService.getPendingOwners();
-      if (licenseRes.success) setPendingLicenses(licenseRes.data);
-      if (carRes.success) setPendingCars(carRes.data);
-      if (ownerRes.success) setPendingOwners(ownerRes.data);
+      console.log("Owners Response:", ownerRes);
+
+      if (licenseRes.success) {
+        setPendingLicenses(licenseRes.data);
+      } else {
+        toast.error(`Licenses Error: ${licenseRes.message}`);
+      }
+
+      if (carRes.success) {
+        setPendingCars(carRes.data);
+      } else {
+        console.error("Failed to fetch cars:", carRes.message);
+        toast.error(`Cars Error: ${carRes.message}`);
+      }
+
+      if (ownerRes.success) {
+        setPendingOwners(ownerRes.data);
+      } else {
+        toast.error(`Owners Error: ${ownerRes.message}`);
+      }
     } catch (error) {
       console.error("Failed to fetch admin data", error);
+      toast.error("A critical error occurred while fetching dashboard data.");
     } finally {
       setLoading(false);
     }
@@ -95,7 +133,9 @@ export default function AdminDashboard() {
     <div className="container mt-5 py-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
          <h2 className="fw-bold border-start border-primary border-4 ps-3">Admin Management Hub</h2>
-         <span className="badge bg-primary rounded-pill px-3 py-2">System Administrator</span>
+         <div className="d-flex align-items-center">
+           <span className="badge bg-primary rounded-pill px-3 py-2 fs-6 shadow-sm">System Administrator</span>
+         </div>
       </div>
 
       <div className="row g-4">
@@ -115,10 +155,14 @@ export default function AdminDashboard() {
                       <div className="d-flex gap-3 align-items-center">
                         <div className="flex-shrink-0">
                            <img 
-                             src={`${API_URL}${license.licenseImageUrl}`}
+                             src={license.licenseImageUrl}
                              alt="License" 
                              className="rounded border"
                              style={{ width: "100px", height: "65px", objectFit: "cover" }}
+                             onError={(e) => {
+                               e.target.onerror = null; // Prevent infinite loop
+                               e.target.src = "https://via.placeholder.com/100x65?text=No+Image";
+                             }}
                            />
                         </div>
                         <div className="flex-grow-1">
@@ -130,7 +174,7 @@ export default function AdminDashboard() {
                         </div>
                       </div>
                       <div className="d-flex justify-content-end gap-2 mt-3">
-                        <a href={`${API_URL}${license.licenseImageUrl}`} target="_blank" rel="noreferrer" className="btn btn-outline-primary btn-sm rounded-pill px-3">View</a>
+                        <a href={license.licenseImageUrl?.startsWith('http') ? license.licenseImageUrl : `${USER_API_URL}${license.licenseImageUrl}`} target="_blank" rel="noreferrer" className="btn btn-outline-primary btn-sm rounded-pill px-3">View</a>
                         <button className="btn btn-success btn-sm rounded-pill px-3" onClick={() => handleVerifyLicense(license.id)}>Verify</button>
                         <button className="btn btn-danger btn-sm rounded-pill px-3" onClick={() => handleRejectLicense(license.id)}>Reject</button>
                       </div>
@@ -159,7 +203,7 @@ export default function AdminDashboard() {
                         {/* 2. ADD: Car Image Preview */}
                         <div className="car-preview flex-shrink-0">
                           <img 
-                            src={car.imageUrl || "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf"} 
+                            src={car.imageUrl?.startsWith('http') ? car.imageUrl : `${RENTAL_API_URL}${car.imageUrl}`} 
                             alt={car.brand} 
                             className="rounded-3 shadow-sm border"
                             style={{ width: "100px", height: "70px", objectFit: "cover" }}

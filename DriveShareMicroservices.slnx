@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="DriveShare.NotificationService/DriveShare.NotificationService.csproj" />
+  <Project Path="DriveShare.RentalService/DriveShare.RentalService.csproj" />
+  <Project Path="DriveShare.Shared/DriveShare.Shared.csproj" />
+  <Project Path="DriveShare.UserService/DriveShare.UserService.csproj" />
+</Solution>

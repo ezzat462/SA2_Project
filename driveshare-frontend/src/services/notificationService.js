@@ -1,18 +1,18 @@
-import API from "./api";
+import { notificationAPI } from "./api";
 
 const notificationService = {
   getMyNotifications: async () => {
-    const response = await API.get("/notifications");
+    const response = await notificationAPI.get("/api/notifications");
     return response.data;
   },
 
   markAsRead: async (id) => {
-    const response = await API.post(`/notifications/${id}/read`);
+    const response = await notificationAPI.post(`/api/notifications/${id}/read`);
     return response.data;
   },
 
   markAllAsRead: async () => {
-    const response = await API.post("/notifications/read-all");
+    const response = await notificationAPI.post("/api/notifications/read-all");
     return response.data;
   }
 };

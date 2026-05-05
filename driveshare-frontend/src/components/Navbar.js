@@ -1,13 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ThemeContext } from "../context/ThemeContext";
 import NotificationBell from "./NotificationBell";
+import useFavorites from '../hooks/useFavorites';
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
   const { theme, toggleTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
+  const { favorites } = useFavorites();
+  const favCount = favorites.length;
 
   const handleLogout = () => {
     logout();
@@ -34,7 +37,7 @@ export default function Navbar() {
 
         <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
           <ul className="navbar-nav align-items-center gap-2">
-            
+
             {/* Theme Toggle */}
             <li className="nav-item">
               <button className="btn btn-outline-secondary btn-sm rounded-circle" onClick={toggleTheme}>
@@ -45,23 +48,42 @@ export default function Navbar() {
             {user && (
               <>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/">Home</Link>
+                  <NavLink className="nav-link" to="/">Home</NavLink>
                 </li>
                 {user.role === "Admin" && (
                   <li className="nav-item">
-                    <Link className="nav-link" to="/admin">Admin Dash</Link>
+                    <NavLink className="nav-link" to="/admin">Admin Dash</NavLink>
                   </li>
                 )}
                 {user.role === "CarOwner" && (
                   <li className="nav-item">
-                    <Link className="nav-link" to="/owner">Owner Dash</Link>
+                    <NavLink className="nav-link" to="/owner">Owner Dash</NavLink>
                   </li>
                 )}
                 {user.role === "Renter" && (
                   <li className="nav-item">
-                    <Link className="nav-link" to="/renter/bookings">My Bookings</Link>
+                    <NavLink className="nav-link" to="/renter/bookings">My Bookings</NavLink>
                   </li>
                 )}
+                <li className="nav-item d-flex align-items-center me-3 ms-2">
+                  <NavLink
+                    to="/favorites"
+                    className="nav-link d-flex align-items-center gap-1"
+                  >
+                    Favorites
+                    {favCount > 0 && (
+                      <span style={{
+                        background: '#ef4444',
+                        color: 'white',
+                        borderRadius: '999px',
+                        padding: '1px 7px',
+                        fontSize: '11px',
+                        fontWeight: 'bold',
+                        marginLeft: '2px',
+                      }}>{favCount}</span>
+                    )}
+                  </NavLink>
+                </li>
                 <li className="nav-item d-flex align-items-center">
                   <NotificationBell />
                 </li>
@@ -89,7 +111,7 @@ export default function Navbar() {
               </>
             ) : (
               <li className="nav-item dropdown">
-                <span className="nav-link dropdown-toggle" style={{cursor: 'pointer'}} id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                <span className="nav-link dropdown-toggle" style={{ cursor: 'pointer' }} id="navbarDropdown" role="button" data-bs-toggle="dropdown">
                   {user.unique_name || user.email}
                 </span>
                 <ul className="dropdown-menu dropdown-menu-end shadow">

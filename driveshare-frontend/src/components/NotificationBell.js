@@ -6,7 +6,7 @@ const TYPE_STYLES = {
   LicenseApproved:   { icon: '✅', color: '#198754' },
   LicenseRejected:   { icon: '❌', color: '#dc3545' },
   LicenseUploaded:   { icon: '📄', color: '#0d6efd' },
-  NewCarPost:        { icon: '🚗', color: '#6610f2' },
+  NewCarListing:     { icon: '🚗', color: '#6610f2' },
   CarApproved:       { icon: '✅', color: '#198754' },
   CarRejected:       { icon: '❌', color: '#dc3545' },
   NewBookingRequest: { icon: '📋', color: '#fd7e14' },
@@ -15,6 +15,7 @@ const TYPE_STYLES = {
   AccountApproved:   { icon: '🏢', color: '#198754' },
   AccountRejected:   { icon: '🚫', color: '#dc3545' },
   AccountPending:    { icon: '⏳', color: '#fd7e14' },
+  NewRegistration:   { icon: '👤', color: '#0d6efd' },
   General:           { icon: '🔔', color: '#6c757d' },
 };
 

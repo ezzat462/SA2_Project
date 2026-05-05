@@ -14,7 +14,7 @@ const TOAST_CONFIG = {
   LicenseUploaded:  { toastFn: toast.info,     icon: '📄' },
 
   // Car Listing Workflow
-  NewCarPost:       { toastFn: toast.info,     icon: '🚗' },
+  NewCarListing:    { toastFn: toast.info,     icon: '🚗' },
   CarApproved:      { toastFn: toast.success,  icon: '✅' },
   CarRejected:      { toastFn: toast.error,    icon: '❌' },
 
@@ -27,6 +27,7 @@ const TOAST_CONFIG = {
   AccountApproved:  { toastFn: toast.success,  icon: '🏢' },
   AccountRejected:  { toastFn: toast.error,    icon: '🚫' },
   AccountPending:   { toastFn: toast.info,     icon: '⏳' },
+  NewRegistration:  { toastFn: toast.info,     icon: '👤' },
 
   // Fallback
   General:          { toastFn: toast.info,      icon: '🔔' },
@@ -91,7 +92,7 @@ export const NotificationProvider = ({ children }) => {
     }
 
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:5243/hubs/notifications', {
+      .withUrl("http://localhost:5003/notificationHub", {
         accessTokenFactory: () => user?.token || localStorage.getItem('token'),
       })
       .withAutomaticReconnect([0, 2000, 5000, 10000, 30000]) // Escalating retry intervals
@@ -100,6 +101,8 @@ export const NotificationProvider = ({ children }) => {
 
     // ─── Register the ReceiveNotification handler ───
     connection.on('ReceiveNotification', (payload) => {
+      console.log("New SignalR Message:", payload);
+      
       const message = payload.message || payload.Message || 'New notification';
       const type = payload.type || payload.Type || 'General';
 
@@ -120,19 +123,33 @@ export const NotificationProvider = ({ children }) => {
             detail: { licenseStatus: 'Rejected' },
           })
         );
+      } else if (type === 'LicenseUploaded') {
+        window.dispatchEvent(new CustomEvent('LICENSE_UPLOADED'));
       }
 
-      // Prepend to local notification list
-      setNotifications((prev) => [
-        {
-          id: payload.id || payload.Id || Date.now(),
-          message,
-          type,
-          isRead: false,
-          createdAt: payload.createdAt || payload.CreatedAt || new Date().toISOString(),
-        },
-        ...prev,
-      ]);
+      // Play sound for important notifications
+      if (type === 'LicenseUploaded' || type === 'NewCarListing') {
+        try {
+          // A short ping sound or fallback to a relative path
+          const audio = new Audio('/ping.mp3'); 
+          audio.play().catch(e => console.log('Audio playback prevented by browser:', e));
+        } catch (err) { }
+      }
+
+      // Prepend to local notification list and keep only the last 10
+      setNotifications((prev) => {
+        const updated = [
+          {
+            id: payload.id || payload.Id || Date.now(),
+            message,
+            type,
+            isRead: false,
+            createdAt: payload.createdAt || payload.CreatedAt || new Date().toISOString(),
+          },
+          ...prev,
+        ];
+        return updated.slice(0, 10); // Notification History limited to 10
+      });
     });
 
     // ─── Start the connection ───

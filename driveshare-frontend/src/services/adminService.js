@@ -1,46 +1,47 @@
-import API from "./api";
+import { userAPI, rentalAPI } from "./api";
 
 const adminService = {
+  // UserService Actions (Port 5001)
   getPendingUsers: async () => {
-    const response = await API.get("/admin/users/pending");
+    const response = await userAPI.get("/admin/users/pending");
     return response.data;
   },
 
   getPendingOwners: async () => {
-    const response = await API.get("/admin/owners/pending");
+    const response = await userAPI.get("/admin/owners/pending");
     return response.data;
   },
 
   updateOwnerStatus: async (id, status) => {
-    // status: 1 = Approved, 2 = Rejected
-    const response = await API.put(`/admin/owners/${id}/status`, status, {
+    const response = await userAPI.put(`/admin/owners/${id}/status`, status, {
         headers: { 'Content-Type': 'application/json' }
     });
     return response.data;
   },
 
   approveUser: async (id) => {
-    const response = await API.put(`/admin/users/${id}/approve`);
+    const response = await userAPI.put(`/admin/users/${id}/approve`);
     return response.data;
   },
 
   rejectUser: async (id) => {
-    const response = await API.put(`/admin/users/${id}/reject`);
+    const response = await userAPI.put(`/admin/users/${id}/reject`);
     return response.data;
   },
 
+  // RentalService Actions (Port 5002)
   getPendingCars: async () => {
-    const response = await API.get("/admin/cars/pending");
+    const response = await rentalAPI.get("/cars/admin/pending");
     return response.data;
   },
 
   approveCar: async (id) => {
-    const response = await API.put(`/admin/cars/${id}/approve`);
+    const response = await rentalAPI.put(`/cars/admin/${id}/approve`);
     return response.data;
   },
 
   rejectCar: async (id) => {
-    const response = await API.put(`/admin/cars/${id}/reject`);
+    const response = await rentalAPI.put(`/cars/admin/${id}/reject`);
     return response.data;
   }
 };

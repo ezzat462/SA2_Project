@@ -1,4 +1,4 @@
-import api from "./api";
+import { rentalAPI as api } from "./api";
 
 const bookingService = {
   createBooking: async (bookingData) => {

@@ -1,13 +1,47 @@
 services:
 
-  sqlserver:
+  sqlserver-user:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: driveshare-sqlserver-1
+    container_name: driveshare-sqlserver-user
     environment:
       SA_PASSWORD: "YourStrong!Password"
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
+    networks:
+      - driveshare-network
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "YourStrong!Password", "-C", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  sqlserver-rental:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: driveshare-sqlserver-rental
+    environment:
+      SA_PASSWORD: "YourStrong!Password"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1434:1433"
+    networks:
+      - driveshare-network
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "YourStrong!Password", "-C", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  sqlserver-notification:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: driveshare-sqlserver-notification
+    environment:
+      SA_PASSWORD: "YourStrong!Password"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1435:1433"
+    networks:
+      - driveshare-network
     healthcheck:
       test: ["CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "YourStrong!Password", "-C", "-Q", "SELECT 1"]
       interval: 10s
@@ -17,6 +51,8 @@ services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.0
     container_name: driveshare-zookeeper-1
+    networks:
+      - driveshare-network
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -28,32 +64,42 @@ services:
       - zookeeper
     ports:
       - "9092:9092"
+    networks:
+      - driveshare-network
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
   init-kafka:
     image: confluentinc/cp-kafka:7.4.0
     container_name: driveshare-init-kafka-1
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
+    networks:
+      - driveshare-network
     entrypoint: [ '/bin/sh', '-c' ]
     command: |
       "
-      echo -e 'Waiting for Kafka to be ready...'
+      echo 'Waiting for Kafka to be ready...'
       cub kafka-ready -b kafka:9092 1 40
-      
-      echo -e 'Creating kafka topics...'
+
+      echo 'Creating kafka topics...'
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic license-uploaded-topic --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic license-status-topic --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic booking-confirmed-topic --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic new-car-listing-topic --replication-factor 1 --partitions 1
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic user-targeted-topic --replication-factor 1 --partitions 3
-      
-      echo -e 'Successfully created topics.'
+
+      echo 'Successfully created topics.'
       "
 
   userservice:
@@ -63,15 +109,16 @@ services:
     container_name: driveshare-userservice-1
     ports:
       - "5001:8080"
+    networks:
+      - driveshare-network
     depends_on:
-      sqlserver:
+      sqlserver-user:
         condition: service_healthy
       init-kafka:
         condition: service_completed_successfully
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      # تغيير اسم الداتا بيز لـ DriveShare_UserDb 👇
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=DriveShare_UserDb;User Id=sa;Password=YourStrong!Password;TrustServerCertificate=True;MultipleActiveResultSets=true;
+      - ConnectionStrings__DefaultConnection=Server=sqlserver-user;Database=DriveShare_UserDb;User Id=sa;Password=YourStrong!Password;TrustServerCertificate=True;MultipleActiveResultSets=true;
       - Kafka__BootstrapServers=kafka:9092
       - Jwt__Secret=ThisIsAVeryLongAndSecureSecretKeyForDriveShareProject2026ByEzzatSobhi
       - Jwt__Issuer=DriveShare
@@ -86,15 +133,16 @@ services:
     container_name: driveshare-rentalservice-1
     ports:
       - "5002:8080"
+    networks:
+      - driveshare-network
     depends_on:
-      sqlserver:
+      sqlserver-rental:
         condition: service_healthy
       init-kafka:
         condition: service_completed_successfully
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      # تغيير اسم الداتا بيز لـ DriveShare_RentalDb 👇
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=DriveShare_RentalDb;User Id=sa;Password=YourStrong!Password;TrustServerCertificate=True;MultipleActiveResultSets=true;
+      - ConnectionStrings__DefaultConnection=Server=sqlserver-rental;Database=DriveShare_RentalDb;User Id=sa;Password=YourStrong!Password;TrustServerCertificate=True;MultipleActiveResultSets=true;
       - Kafka__BootstrapServers=kafka:9092
       - Jwt__Secret=ThisIsAVeryLongAndSecureSecretKeyForDriveShareProject2026ByEzzatSobhi
       - Jwt__Issuer=DriveShare
@@ -107,15 +155,16 @@ services:
     container_name: driveshare-notificationservice-1
     ports:
       - "5003:8080"
+    networks:
+      - driveshare-network
     depends_on:
-      sqlserver:
+      sqlserver-notification:
         condition: service_healthy
       init-kafka:
         condition: service_completed_successfully
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      # ضفنا بيانات الداتا بيز هنا برضه باسم منفصل 👇
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=DriveShare_NotificationDb;User Id=sa;Password=YourStrong!Password;TrustServerCertificate=True;MultipleActiveResultSets=true;
+      - ConnectionStrings__DefaultConnection=Server=sqlserver-notification;Database=DriveShare_NotificationDb;User Id=sa;Password=YourStrong!Password;TrustServerCertificate=True;MultipleActiveResultSets=true;
       - Kafka__BootstrapServers=kafka:9092
       - Jwt__Secret=ThisIsAVeryLongAndSecureSecretKeyForDriveShareProject2026ByEzzatSobhi
       - Jwt__Issuer=DriveShare
@@ -128,11 +177,13 @@ services:
     container_name: driveshare-frontend-1
     ports:
       - "3002:80"
+    networks:
+      - driveshare-network
     depends_on:
       - userservice
       - rentalservice
       - notificationservice
 
 networks:
-  default:
-    name: driveshare-network
+  driveshare-network:
+    driver: bridge

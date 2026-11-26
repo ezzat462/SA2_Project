@@ -1,0 +1,41 @@
+## Visual Studio
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.sln.docstates
+.vscode/
+
+## Build outputs
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+bld/
+
+## Project / Tooling
+*.dtbcache*
+*.vsidx
+*.sqlite
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Node / Frontend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+## OS
+Thumbs.db
+Desktop.ini
+.DS_Store
